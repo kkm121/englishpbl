@@ -6,11 +6,11 @@
     <title>My Name is Radha | Saadat Hasan Manto</title>
     <style>
         :root {
-            --ui-glow: rgba(200, 180, 150, 0.5);
+            --ui-glow: rgba(212, 175, 55, 0.6);
             --gold: #d4af37;
             --text-color: #e8e3d9;
             --text-muted: #a39f96;
-            --bg-color: #0a0a0a;
+            --bg-color: #050505;
             --panel-bg: rgba(15, 12, 10, 0.85);
         }
 
@@ -38,6 +38,7 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
+            pointer-events: none;
         }
 
         .film-grain {
@@ -49,7 +50,7 @@
             z-index: 2;
             pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .vignette {
@@ -60,7 +61,7 @@
             height: 100%;
             z-index: 3;
             pointer-events: none;
-            background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.8) 150%);
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 150%);
         }
 
         /* --- NAVIGATION --- */
@@ -72,22 +73,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.95) 40%, transparent);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .logo {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             text-transform: uppercase;
             letter-spacing: 4px;
             color: var(--gold);
             cursor: pointer;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+            font-weight: bold;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .nav-link {
@@ -95,15 +101,27 @@
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
             font-family: 'Courier New', Courier, monospace;
+            position: relative;
         }
 
         .nav-link:hover, .nav-link.active {
             color: #fff;
-            text-shadow: 0 0 8px #fff;
+            text-shadow: 0 0 12px var(--gold);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--gold);
+            box-shadow: 0 0 5px var(--gold);
         }
 
         /* --- PAGE STRUCTURE --- */
@@ -116,7 +134,7 @@
 
         .page {
             display: none;
-            padding: 8rem 10% 4rem 10%;
+            padding: 10rem 10% 4rem 10%;
             min-height: 100vh;
             animation: fadeIn 0.8s ease forwards;
         }
@@ -126,7 +144,7 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -140,24 +158,29 @@
         .section-title {
             font-size: 2.5rem;
             color: var(--gold);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             text-align: center;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 1rem;
+            display: inline-block;
+            width: 100%;
         }
 
         p {
             line-height: 1.8;
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
+            color: #ccc;
         }
 
         .btn {
-            background: transparent;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 12px 30px;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 14px 35px;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 3px;
             cursor: pointer;
@@ -166,6 +189,13 @@
             overflow: hidden;
             display: inline-block;
             text-decoration: none;
+            z-index: 20;
+            font-weight: bold;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .btn::before {
@@ -175,18 +205,40 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
             transition: left 0.5s ease;
+            z-index: -1;
         }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.05);
+        .btn:not(:disabled):hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: #fff;
             border-color: #fff;
-            box-shadow: 0 0 15px var(--ui-glow);
+            box-shadow: 0 0 20px var(--ui-glow);
+            text-shadow: 0 0 8px #fff;
         }
 
-        .btn:hover::before {
+        .btn:not(:disabled):hover::before {
             left: 100%;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .input-field:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
         }
 
         /* --- SPECIFIC PAGES --- */
@@ -200,21 +252,24 @@
             text-align: center;
             height: 100vh;
             padding: 0 2rem;
+            margin-top: -4rem;
         }
 
         .hero-title {
-            font-size: 4rem;
-            letter-spacing: 10px;
+            font-size: 5rem;
+            letter-spacing: 12px;
             margin-bottom: 1rem;
-            text-shadow: 0 0 30px var(--ui-glow);
+            color: #fff;
+            text-shadow: 0 0 40px var(--ui-glow), 0 0 10px rgba(255,255,255,0.5);
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-muted);
-            letter-spacing: 5px;
-            margin-bottom: 3rem;
+            letter-spacing: 6px;
+            margin-bottom: 3.5rem;
             font-family: 'Courier New', Courier, monospace;
+            max-width: 800px;
         }
 
         /* Interactive Story Page */
@@ -222,41 +277,43 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-top: 0; /* Let it center perfectly */
         }
 
         .glass-panel {
             background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 3rem;
-            border-radius: 4px;
-            max-width: 700px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 4rem 3rem;
+            border-radius: 8px;
+            max-width: 800px;
             width: 100%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px var(--ui-glow);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9), 0 0 40px var(--ui-glow);
             transition: box-shadow 1.5s ease;
             text-align: center;
         }
 
         #narrative-text {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-            min-height: 140px; 
+            font-size: 1.25rem;
+            line-height: 1.9;
+            margin-bottom: 3rem;
+            min-height: 150px; 
+            text-shadow: 1px 1px 3px #000;
         }
 
         .cursor {
             display: inline-block;
-            width: 8px;
-            height: 1.15rem;
-            background-color: var(--ui-glow);
+            width: 10px;
+            height: 1.25rem;
+            background-color: var(--gold);
             vertical-align: middle;
             animation: blink 1s step-end infinite;
-            margin-left: 4px;
+            margin-left: 5px;
+            box-shadow: 0 0 8px var(--gold);
         }
 
-        /* Content Pages (Author & Era) */
+        /* Content Pages */
         .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -264,43 +321,315 @@
             max-width: 1200px;
             margin: 0 auto;
             align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .content-grid.reverse {
+            direction: rtl;
+        }
+        .content-grid.reverse > * {
+            direction: ltr;
         }
 
         .text-content {
-            background: rgba(10, 10, 10, 0.6);
-            padding: 2.5rem;
-            border-left: 2px solid var(--gold);
-            backdrop-filter: blur(5px);
+            background: rgba(10, 10, 10, 0.7);
+            padding: 3rem;
+            border-left: 3px solid var(--gold);
+            backdrop-filter: blur(8px);
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .content-grid.reverse .text-content {
+            border-left: none;
+            border-right: 3px solid var(--gold);
+            border-radius: 8px 0 0 8px;
         }
 
         .image-wrapper {
             position: relative;
             width: 100%;
-            height: 500px;
+            height: 450px;
             overflow: hidden;
-            border-radius: 4px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
         }
 
         .image-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: sepia(0.6) grayscale(0.3) contrast(1.2);
-            transition: transform 0.7s ease, filter 0.7s ease;
+            filter: sepia(0.5) grayscale(0.4) contrast(1.2);
+            transition: transform 0.8s ease, filter 0.8s ease;
         }
 
         .image-wrapper:hover img {
-            transform: scale(1.05);
-            filter: sepia(0.2) grayscale(0) contrast(1.1);
+            transform: scale(1.08);
+            filter: sepia(0.1) grayscale(0) contrast(1.1);
         }
 
-        @media (max-width: 768px) {
-            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .hero-title { font-size: 2.5rem; }
-            .nav-links { display: none; /* simple mobile nav hide for brevity */ }
-            nav { justify-content: center; }
-            .page { padding-top: 6rem; }
+        /* Flashcards Page */
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            background: transparent;
+            height: 400px;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .flashcard-front {
+            background: rgba(15, 12, 10, 0.9);
+            color: var(--gold);
+        }
+
+        .flashcard-front h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+        .flashcard-front span { font-family: 'Courier New', monospace; font-size: 0.9rem; color: #fff; opacity: 0.5; }
+
+        .flashcard-back {
+            background: rgba(30, 25, 20, 0.95);
+            color: #fff;
+            transform: rotateY(180deg);
+            border-color: var(--gold);
+        }
+        
+        .flashcard-back p { font-size: 1.1rem; line-height: 1.6; color: #e8e3d9; }
+
+        /* PPT Presentation Page */
+        .ppt-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ppt-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+
+        .ppt-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .ppt-slide h2 { color: var(--gold); font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .ppt-slide p { font-size: 1.3rem; max-width: 700px; }
+
+        .ppt-controls {
+            position: absolute;
+            bottom: 0; width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* Gallery Page */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .gallery-item {
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(0.6) grayscale(0.5) contrast(1.3);
+            transition: 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+            filter: sepia(0) grayscale(0) contrast(1);
+        }
+
+        .video-container {
+            max-width: 1000px;
+            margin: 0 auto 4rem auto;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--gold);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* AI Studio Page */
+        .ai-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ai-panel {
+            background: var(--panel-bg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ai-panel h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            height: 250px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-right: 10px;
+        }
+
+        .chat-box::-webkit-scrollbar { width: 5px; }
+        .chat-box::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        .chat-box::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 5px; }
+
+        .chat-msg {
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            max-width: 85%;
+        }
+
+        .chat-msg.user {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            align-self: flex-end;
+            color: #fff;
+        }
+
+        .chat-msg.ai {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            align-self: flex-start;
+            color: var(--text-color);
+        }
+
+        .img-result-box {
+            width: 100%;
+            height: 250px;
+            background: rgba(0,0,0,0.5);
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .img-result-box img { width: 100%; height: 100%; object-fit: contain; }
+        .img-placeholder { color: var(--text-muted); font-family: monospace; text-align: center; padding: 2rem; }
+
+        .loading-spinner {
+            border: 3px solid rgba(212, 175, 55, 0.2);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 0 auto 10px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 1024px) {
+            .nav-links { gap: 1rem; }
+            .nav-link { font-size: 0.75rem; }
+        }
+
+        @media (max-width: 900px) {
+            .content-grid, .ai-grid, .gallery-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .content-grid.reverse { direction: ltr; }
+            .content-grid.reverse .text-content { border-right: none; border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; }
+            .hero-title { font-size: 3rem; letter-spacing: 6px; }
+            nav { padding: 1rem; flex-direction: column; gap: 1rem; }
+            .page { padding-top: 12rem; }
+            .ppt-slide { padding: 2rem; }
+            .ppt-slide h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -316,29 +645,33 @@
 
     <!-- Navigation -->
     <nav>
-        <div class="logo" onclick="navigateTo('home')">Lumina Films</div>
+        <div class="logo" data-target="home">Lumina Films</div>
         <div class="nav-links">
-            <span class="nav-link active" onclick="navigateTo('home')">Home</span>
-            <span class="nav-link" onclick="navigateTo('story')">The Experience</span>
-            <span class="nav-link" onclick="navigateTo('author')">The Author</span>
-            <span class="nav-link" onclick="navigateTo('era')">The Era</span>
+            <span class="nav-link active" data-target="home">Home</span>
+            <span class="nav-link" data-target="story">The Experience</span>
+            <span class="nav-link" data-target="author">The Author</span>
+            <span class="nav-link" data-target="era">The Era</span>
+            <span class="nav-link" data-target="legacy">Legacy</span>
+            <span class="nav-link" data-target="presentation">Themes (PPT)</span>
+            <span class="nav-link" data-target="flashcards">Characters</span>
+            <span class="nav-link" data-target="gallery">Media</span>
+            <span class="nav-link" data-target="aistudio" style="color:var(--gold);">AI Studio</span>
         </div>
     </nav>
 
-    <!-- Main Content Areas (SPA Pages) -->
     <main>
         
         <!-- 1. HOME PAGE -->
         <section id="home" class="page active">
             <h1 class="hero-title">MY NAME IS RADHA</h1>
-            <div class="hero-subtitle">A Story of Purity, Pretense, and Film by Saadat Hasan Manto</div>
-            <a class="btn" onclick="navigateTo('story')">Enter The Studio</a>
+            <div class="hero-subtitle">A Story of Purity, Pretense, and the Shadows of Bombay Cinema</div>
+            <button class="btn nav-trigger" data-target="story">Enter The Studio</button>
         </section>
 
         <!-- 2. INTERACTIVE STORY PAGE -->
         <section id="story" class="page">
             <div class="glass-panel" id="panel">
-                <h1 id="story-title" style="color:var(--gold); font-size:1.5rem; margin-bottom:1.5rem;">Bombay, 1939</h1>
+                <h1 id="story-title" style="color:var(--gold); font-size:1.8rem; margin-bottom:2rem; letter-spacing: 5px;">Bombay, 1939</h1>
                 <div id="narrative-text"><span id="typewriter"></span><span class="cursor"></span></div>
                 <div>
                     <button class="btn" id="action-btn">Read On</button>
@@ -351,13 +684,20 @@
             <h2 class="section-title">The Undisputed Master</h2>
             <div class="content-grid">
                 <div class="image-wrapper">
-                    <!-- Vintage typewriter to represent the writer -->
                     <img src="https://images.unsplash.com/photo-1505682634904-d7c8d95cdc50?auto=format&fit=crop&q=80" alt="Vintage Typewriter">
                 </div>
                 <div class="text-content">
                     <p><strong>Saadat Hasan Manto</strong> (1912 – 1955) has been called the greatest short story writer of the Indian subcontinent. Born in Punjab, he navigated the chaotic, vibrant world of Bombay as a radio and film scriptwriter, journalist, and author.</p>
-                    <p>His stories were highly controversial, unafraid to look into the dark, marginalized corners of society. He was tried for obscenity six times during his career—a testament to his refusal to sanitize reality.</p>
-                    <p>Manto's world in Bombay was crowded with Hindus, Sikhs, and Muslims; with hookers and heiresses, clerks and movie stars. He wrote of their lives with profound empathy and a sharp, cynical wit. After the tragic violence of Partition, he moved to Lahore, where the separation from his beloved Bombay eventually broke him.</p>
+                    <p>His stories were highly controversial, unafraid to look into the dark, marginalized corners of society. He wrote of their lives with profound empathy and a sharp, cynical wit.</p>
+                </div>
+            </div>
+            <div class="content-grid reverse">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1583508493185-3b91bc6215ee?auto=format&fit=crop&q=80" alt="Ink and Paper">
+                </div>
+                <div class="text-content">
+                    <p>Manto possessed an incredible economy of words. A single detail—a coat hanging in a room, the stench of urine by a factory wall, a satin blouse—could evoke an entire milieu.</p>
+                    <p>His narrators were often mischievous, compassionate, funny, and deeply skeptical of societal prejudice. They served as guides through the complex, immigrant-heavy landscape of pre-partition India.</p>
                 </div>
             </div>
         </section>
@@ -365,15 +705,162 @@
         <!-- 4. THE ERA PAGE -->
         <section id="era" class="page">
             <h2 class="section-title">1930s Bombay Cinema</h2>
-            <div class="content-grid" style="direction: rtl;">
-                <div class="image-wrapper" style="direction: ltr;">
-                    <!-- Vintage film camera / studio lights -->
+            <div class="content-grid">
+                <div class="image-wrapper">
                     <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80" alt="Vintage Film Camera">
                 </div>
-                <div class="text-content" style="direction: ltr;">
+                <div class="text-content">
                     <p>In the late 1930s, the Bombay film industry was a chaotic blend of art, commerce, and survival. B-grade studios churned out films like <em>"The Beauty of the Forest"</em> while scriptwriters earned a meager forty rupees a month.</p>
-                    <p>The studios were melting pots. You had 'pure' leading men draped in khadi cloth, professing nationalistic ideals while measuring their biceps. And you had women like Neelam—the daughter of a Banarasi prostitute—brought in to play the 'vamp' because polite society refused to acknowledge them as anything else.</p>
-                    <p>Manto captures the hypocrisy of this era perfectly. The men who played saints on screen often lacked the raw, unapologetic honesty of the women they looked down upon. When the facade cracks, as it does in <em>"My Name is Radha"</em>, the truth is violent, bloody, and entirely real.</p>
+                    <p>The studios were melting pots. You had 'pure' leading men draped in khadi cloth, professing nationalistic ideals while measuring their biceps. And you had women like Neelam—brought in to play the 'vamp'.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. LEGACY PAGE -->
+        <section id="legacy" class="page">
+            <h2 class="section-title">Trials & Tribulations</h2>
+            <div class="content-grid">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80" alt="Scales of Justice">
+                </div>
+                <div class="text-content">
+                    <p>Manto's dedication to depicting reality as he saw it came at a heavy price. He was tried for obscenity six times—three times in British India, and three times in Pakistan.</p>
+                    <p>He argued in court that if his stories were unbearable, it was because the society he was reflecting was unbearable. He died in 1955 at the age of 42, but his legacy as South Asia's greatest chronicler of human hypocrisy endures.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. PRESENTATION (PPT) PAGE -->
+        <section id="presentation" class="page">
+            <h2 class="section-title">Thematic Deck</h2>
+            <div class="ppt-container">
+                <div class="ppt-slide active" id="slide-0">
+                    <h2>Hypocrisy vs. Authenticity</h2>
+                    <p>Raj Kishore represents the polished, socially acceptable facade. He wears khadi, donates to charity, and calls women "sister". Yet, his morality is entirely performative.</p>
+                </div>
+                <div class="ppt-slide" id="slide-1">
+                    <h2>The Concept of "Purity"</h2>
+                    <p>Neelam is a "vamp" and a prostitute's daughter. Society deems her impure. Yet, her emotions, anger, and eventual violent outbreak are the most genuine acts of purity in the story.</p>
+                </div>
+                <div class="ppt-slide" id="slide-2">
+                    <h2>The Unreliable Narrator</h2>
+                    <p>The narrator (Saadat) admits his own physical weaknesses and biases. He despises Raj Kishore for reasons he can barely articulate, guiding the reader's view through a lens of cynical observation.</p>
+                </div>
+                <div class="ppt-slide" id="slide-3">
+                    <h2>The Violence of Repression</h2>
+                    <p>The climax is not a standard romance, but a violent clash. The repressed sexual and social tension explodes in a physical attack that shatters the polite boundaries of the film set.</p>
+                </div>
+                <div class="ppt-controls">
+                    <button class="btn" onclick="changeSlide(-1)">&#8592; Prev</button>
+                    <span id="slide-counter" style="font-family: monospace;">1 / 4</span>
+                    <button class="btn" onclick="changeSlide(1)">Next &#8594;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. FLASHCARDS PAGE -->
+        <section id="flashcards" class="page">
+            <h2 class="section-title">Character Studies</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Click on a card to reveal the character analysis.</p>
+            <div class="flashcard-grid">
+                <!-- Card 1 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner flashcard-front">
+                        <h3>Neelam (Radha)</h3>
+                        <span>Tap to flip</span>
+                    </div>
+                    <div class="flashcard-inner flashcard-back">
+                        <p>Daughter of a Banarasi prostitute, cast as the vamp. She is highly observant, fierce, and refuses to apologize for her reality. Her final act of violence is a reclamation of her identity.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner flashcard-front">
+                        <h3>Raj Kishore</h3>
+                        <span>Tap to flip</span>
+                    </div>
+                    <div class="flashcard-inner flashcard-back">
+                        <p>The leading man. A well-built nationalist who weaponizes his "purity". He creates a fortress of pseudo-morality (calling women "sister", refusing to kiss on screen) to hide his vanity.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner flashcard-front">
+                        <h3>The Narrator (Saadat)</h3>
+                        <span>Tap to flip</span>
+                    </div>
+                    <div class="flashcard-inner flashcard-back">
+                        <p>A sickly, weedy scriptwriter. He functions as the cynical lens of the story. He hates pretension and finds himself drawn to Neelam's unvarnished truth over Raj's polished lies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. MEDIA / GALLERY PAGE -->
+        <section id="gallery" class="page">
+            <h2 class="section-title">Archival Media</h2>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/nE1E1kO08vA?rel=0&modestbranding=1" title="Vintage Bombay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h3 style="text-align: center; color: var(--gold); margin-bottom: 2rem; font-family: 'Courier New', monospace;">The Cinematic World</h3>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1533422902700-1b12b5b3a886?auto=format&fit=crop&q=80" alt="Vintage Street"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&q=80" alt="Old Camera"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&q=80" alt="Vintage Dress"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1461360228754-6e81c478b882?auto=format&fit=crop&q=80" alt="Script writing"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80" alt="Cinema seating"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1524584282361-b5f7e7f60719?auto=format&fit=crop&q=80" alt="Dark moody studio"></div>
+            </div>
+        </section>
+
+        <!-- 9. AI STUDIO PAGE -->
+        <section id="aistudio" class="page">
+            <h2 class="section-title">The AI Studio</h2>
+            
+            <div class="ai-grid">
+                <!-- 1. Manto Tone Analyzer (Text Rewrite) -->
+                <div class="ai-panel">
+                    <h3>The Manto Tone Rewrite</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted);">Type a boring sentence. The AI will rewrite it in Manto's cynical, raw 1930s literary style.</p>
+                    <input type="text" id="rewrite-input" class="input-field" placeholder="e.g., The man walked down the street looking sad." onkeypress="if(event.key==='Enter') rewriteText()">
+                    <div id="rewrite-loading" class="loading-spinner"></div>
+                    <div id="rewrite-result" style="margin-top:1rem; font-style:italic; color:var(--gold); min-height: 50px;"></div>
+                    <button class="btn" id="rewrite-btn" onclick="rewriteText()" style="width: 100%; margin-top: auto;">Rewrite</button>
+                </div>
+
+                <!-- 2. Voice Synthesis (TTS) -->
+                <div class="ai-panel">
+                    <h3>Noir Voice Synthesis</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted);">Generate an AI voice reading the dramatic climax of the story. (Uses Gemini TTS)</p>
+                    <div style="background: rgba(0,0,0,0.5); padding: 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem;">
+                        "I tore at him. I clung to him like a junglee cat... I shredded his kurta to pieces. It was at that exact moment... I understood what it had been."
+                    </div>
+                    <div id="tts-loading" class="loading-spinner"></div>
+                    <audio id="audio-player" controls style="width: 100%; margin-bottom: 1rem; display: none;"></audio>
+                    <button class="btn" id="tts-btn" onclick="generateAudio()" style="width: 100%; margin-top: auto;">Listen to the Climax</button>
+                </div>
+
+                <!-- 3. Chat Panel -->
+                <div class="ai-panel">
+                    <h3>Literary Critic Chat</h3>
+                    <div class="chat-box" id="chat-box">
+                        <div class="chat-msg ai">I've spent too much time analyzing the squalor of Bombay's film sets. Ask me about Manto or Neelam.</div>
+                    </div>
+                    <div id="chat-loading" class="loading-spinner"></div>
+                    <input type="text" id="chat-input" class="input-field" placeholder="Ask a question..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+                    <button class="btn" id="chat-btn" onclick="sendChatMessage()" style="width: 100%;">Send</button>
+                </div>
+
+                <!-- 4. Image Gen Panel -->
+                <div class="ai-panel">
+                    <h3>Vintage Scene Generator</h3>
+                    <div class="img-result-box" id="img-result-box">
+                        <div class="img-placeholder" id="img-placeholder">Image will appear here.</div>
+                        <img id="generated-image" src="" alt="Generated Scene" style="display: none;">
+                    </div>
+                    <div id="img-loading" class="loading-spinner"></div>
+                    <input type="text" id="img-input" class="input-field" placeholder="e.g., A rainy street outside a film studio" onkeypress="if(event.key==='Enter') generateImage()">
+                    <button class="btn" id="img-btn" onclick="generateImage()" style="width: 100%;">Generate Image</button>
                 </div>
             </div>
         </section>
@@ -381,29 +868,46 @@
     </main>
 
     <script>
-        // --- NAVIGATION LOGIC ---
+        // ==========================================
+        // 1. INITIALIZATION & NAVIGATION (FIXED)
+        // ==========================================
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            // Attach click listeners to all navigation elements using data-target
+            const navTriggers = document.querySelectorAll('.nav-link, .nav-trigger, .logo');
+            
+            navTriggers.forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = trigger.getAttribute('data-target');
+                    if (targetId) navigateTo(targetId);
+                });
+            });
+
+            // Init Canvas and PPT
+            resize();
+            animate();
+            updateSlides();
+        });
+
         const pages = document.querySelectorAll('.page');
         const navLinks = document.querySelectorAll('.nav-link');
+        const root = document.documentElement;
 
         function navigateTo(pageId) {
-            // Update Navigation UI
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if(link.innerText.toLowerCase().includes(pageId) || 
-                  (pageId === 'story' && link.innerText.includes('Experience'))) {
-                    link.classList.add('active');
-                }
-            });
+            // Remove active class from all links and pages
+            navLinks.forEach(link => link.classList.remove('active'));
+            pages.forEach(page => page.classList.remove('active'));
 
-            // Update Pages
-            pages.forEach(page => {
-                page.classList.remove('active');
-                if(page.id === pageId) {
-                    page.classList.add('active');
-                }
-            });
+            // Add active class to target page
+            const targetPage = document.getElementById(pageId);
+            if(targetPage) targetPage.classList.add('active');
 
-            // Update Engine State based on page
+            // Add active class to corresponding nav link
+            const targetLink = document.querySelector(`.nav-link[data-target="${pageId}"]`);
+            if(targetLink) targetLink.classList.add('active');
+
+            // Handle Engine State (Story vs Idle Golden Sparkles)
             if (pageId === 'story') {
                 engineSettings = storyPlot[currentStage].settings;
                 root.style.setProperty('--ui-glow', storyPlot[currentStage].uiColor);
@@ -412,22 +916,227 @@
                     loadStage(0);
                 }
             } else {
-                // Background idle mode for other pages
-                engineSettings = { count: 60, speed: 0.2, size: 2, bloomMulti: 0.5, hueMode: 'sepia', clearAlpha: 0.1, behavior: 'drift' };
-                root.style.setProperty('--ui-glow', 'rgba(200, 180, 150, 0.5)');
+                // Golden Sparkle Background for all non-story pages
+                engineSettings = { 
+                    count: 150, speed: 0.3, size: 2.5, bloomMulti: 1.2, 
+                    hueMode: 'gold', clearAlpha: 0.1, behavior: 'sparkle' 
+                };
+                root.style.setProperty('--ui-glow', 'rgba(212, 175, 55, 0.6)');
             }
-            
             window.scrollTo(0, 0);
         }
 
-        // --- NARRATIVE PLOT & STATE ---
+        // ==========================================
+        // 2. PPT PRESENTATION LOGIC
+        // ==========================================
+        let currentSlide = 0;
+        const totalSlides = 4;
+
+        function updateSlides() {
+            for(let i=0; i<totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if(i === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            }
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            updateSlides();
+        }
+
+        // ==========================================
+        // 3. CANVAS & ULTRABLOOM ENGINE (GOLD SPARKLES FIXED)
+        // ==========================================
+        
+        const canvas = document.getElementById('bloomCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        let width, height, cx, cy;
+        let particles = [];
+        
+        // Initial Idle State
+        let engineSettings = { 
+            count: 150, speed: 0.3, size: 2.5, bloomMulti: 1.2, 
+            hueMode: 'gold', clearAlpha: 0.1, behavior: 'sparkle' 
+        };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            cx = width / 2;
+            cy = height / 2;
+        }
+        window.addEventListener('resize', resize);
+
+        class Particle {
+            constructor() { this.reset(true); }
+
+            reset(randomPosition = false) {
+                if (engineSettings.behavior === 'explode') {
+                    this.x = cx; this.y = cy;
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * engineSettings.speed;
+                    this.vx = Math.cos(angle) * velocity;
+                    this.vy = Math.sin(angle) * velocity;
+                } else if (randomPosition) {
+                    this.x = Math.random() * width; this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * engineSettings.speed;
+                    this.vy = (Math.random() - 0.5) * engineSettings.speed;
+                } else {
+                    if (Math.random() > 0.5) {
+                        this.x = Math.random() > 0.5 ? 0 : width;
+                        this.y = Math.random() * height;
+                    } else {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() > 0.5 ? 0 : height;
+                    }
+                    this.vx = (Math.random() - 0.5) * engineSettings.speed;
+                    this.vy = (Math.random() - 0.5) * engineSettings.speed;
+                }
+                this.size = Math.random() * engineSettings.size + 1;
+                this.life = 0;
+                this.maxLife = Math.random() * 100 + 50;
+                this.angle = Math.random() * Math.PI * 2; 
+                this.setHue();
+            }
+
+            setHue() {
+                switch (engineSettings.hueMode) {
+                    case 'gold': this.hue = 40 + Math.random() * 15; break; 
+                    case 'sepia': this.hue = 30 + Math.random() * 20; break; 
+                    case 'cool': this.hue = 200 + Math.random() * 40; break; 
+                    case 'tense': this.hue = 0 + Math.random() * 20; break; 
+                    case 'sickly': this.hue = 60 + Math.random() * 40; break; 
+                    case 'danger': this.hue = 340 + Math.random() * 40; break; 
+                    case 'fire': this.hue = 10 + Math.random() * 40; break; 
+                    case 'ultrabloom': this.hue = Math.random() * 360; break; 
+                    default: this.hue = 45;
+                }
+            }
+
+            update() {
+                if (engineSettings.behavior === 'swirl') {
+                    const dx = cx - this.x; const dy = cy - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    this.angle += 0.05;
+                    this.vx = Math.cos(this.angle) * engineSettings.speed + (dx / dist) * 0.5;
+                    this.vy = Math.sin(this.angle) * engineSettings.speed + (dy / dist) * 0.5;
+                } else if (engineSettings.behavior === 'vibrate') {
+                    this.vx += (Math.random() - 0.5) * 2.0;
+                    this.vy += (Math.random() - 0.5) * 2.0;
+                } else if (engineSettings.behavior === 'sparkle') {
+                    this.vx += (Math.random() - 0.5) * 0.05;
+                    this.vy += (Math.random() - 0.5) * 0.05;
+                    this.angle += 0.02; // Rotate for twinkle
+                } else {
+                    this.vx += (Math.random() - 0.5) * 0.1;
+                    this.vy += (Math.random() - 0.5) * 0.1;
+                }
+
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                const maxS = engineSettings.speed * (engineSettings.behavior === 'explode' ? 2 : 1);
+                if (speed > maxS && engineSettings.behavior !== 'vibrate') {
+                    this.vx = (this.vx / speed) * maxS;
+                    this.vy = (this.vy / speed) * maxS;
+                }
+
+                this.x += this.vx; this.y += this.vy; this.life++;
+
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height || this.life >= this.maxLife) {
+                    if (engineSettings.behavior !== 'explode') this.reset();
+                }
+            }
+
+            draw() {
+                const progress = this.life / this.maxLife;
+                const alpha = engineSettings.behavior === 'explode' ? 1 : Math.sin(progress * Math.PI); 
+                
+                let lightness = engineSettings.hueMode === 'ultrabloom' || engineSettings.hueMode === 'gold' ? 70 : 50;
+                let saturation = engineSettings.hueMode === 'sepia' ? 40 : 100;
+                
+                if (engineSettings.behavior === 'sparkle') {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    
+                    ctx.fillStyle = `hsla(${this.hue}, ${saturation}%, ${lightness}%, ${alpha})`;
+                    ctx.shadowBlur = this.size * 3;
+                    ctx.shadowColor = `hsla(${this.hue}, 100%, 50%, ${alpha})`;
+                    
+                    ctx.beginPath();
+                    const starSize = this.size * engineSettings.bloomMulti * 1.5; // Bigger sparkles
+                    for(let i=0; i<4; i++){
+                        ctx.rotate(Math.PI/2);
+                        ctx.lineTo(0, -starSize);
+                        ctx.lineTo(starSize * 0.15, -starSize * 0.15);
+                    }
+                    ctx.fill();
+                    ctx.restore();
+                } else {
+                    const radius = this.size * engineSettings.bloomMulti;
+                    if (radius <= 0) return;
+                    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, radius);
+                    gradient.addColorStop(0, `hsla(${this.hue}, ${saturation}%, 100%, ${alpha})`); 
+                    gradient.addColorStop(0.2, `hsla(${this.hue}, ${saturation}%, ${lightness}%, ${alpha * 0.8})`); 
+                    gradient.addColorStop(1, `hsla(${this.hue}, ${saturation}%, 10%, 0)`); 
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function manageParticles() {
+            if (particles.length < engineSettings.count) {
+                for (let i = 0; i < 10; i++) {
+                    if (particles.length < engineSettings.count) particles.push(new Particle());
+                }
+            } else if (particles.length > engineSettings.count) {
+                particles.splice(0, 10);
+            }
+        }
+
+        let shakeOffset = { x: 0, y: 0 };
+
+        function animate() {
+            if (engineSettings.behavior === 'explode' || engineSettings.behavior === 'vibrate') {
+                let intensity = engineSettings.behavior === 'explode' ? 15 : 5;
+                shakeOffset.x = (Math.random() - 0.5) * intensity;
+                shakeOffset.y = (Math.random() - 0.5) * intensity;
+                ctx.save();
+                ctx.translate(shakeOffset.x, shakeOffset.y);
+            }
+
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = `rgba(5, 5, 5, ${engineSettings.clearAlpha})`;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.globalCompositeOperation = 'lighter';
+            manageParticles();
+            particles.forEach(p => { p.update(); p.draw(); });
+
+            if (engineSettings.behavior === 'explode' || engineSettings.behavior === 'vibrate') ctx.restore();
+            requestAnimationFrame(animate);
+        }
+
+        // ==========================================
+        // 4. INTERACTIVE STORY LOGIC
+        // ==========================================
+        
         const storyPlot = [
             {
                 title: "The B-Grade Studio",
                 text: "I was employed at a film studio, earning forty rupees a month. Raj Kishore was our leading man. Handsome, built like an ox, wore khadi, and was entirely too aware of his own purity. He called every actress 'sister'. I despised his posturing.",
                 btnText: "The New Girl",
-                uiColor: "rgba(180, 150, 100, 0.5)", 
-                settings: { count: 40, speed: 0.3, size: 3, bloomMulti: 0.6, hueMode: 'sepia', clearAlpha: 0.1, behavior: 'drift' }
+                uiColor: "rgba(212, 175, 55, 0.7)", 
+                settings: { count: 80, speed: 0.4, size: 2.5, bloomMulti: 1.0, hueMode: 'gold', clearAlpha: 0.1, behavior: 'sparkle' }
             },
             {
                 title: "The Vamp",
@@ -469,186 +1178,26 @@
                 text: "ULTRABLOOM TRIGGERED. The set flooded with blinding, torrential color. She stood up, breathing heavily, leaving him a broken, bloody mess on the floor. She looked up into the dark rafters right at me. 'Saadat,' she whispered into the blazing light, 'My name is Radha.'",
                 btnText: "Restart Film",
                 uiColor: "rgba(255, 255, 255, 1)", 
-                settings: { count: 600, speed: 15.0, size: 25, bloomMulti: 8.0, hueMode: 'ultrabloom', clearAlpha: 0.02, behavior: 'explode' }
+                settings: { count: 800, speed: 15.0, size: 25, bloomMulti: 8.0, hueMode: 'ultrabloom', clearAlpha: 0.02, behavior: 'explode' }
             }
         ];
 
         let currentStage = 0;
         let isTyping = false;
         let isStoryStarted = false;
-
+        
         const storyTitleEl = document.getElementById('story-title');
         const typewriterEl = document.getElementById('typewriter');
         const actionBtn = document.getElementById('action-btn');
-        const root = document.documentElement;
 
-        // --- CANVAS & ULTRABLOOM ENGINE ---
-        const canvas = document.getElementById('bloomCanvas');
-        const ctx = canvas.getContext('2d', { alpha: false });
-        let width, height, cx, cy;
-        let particles = [];
-        
-        // Start with idle background settings
-        let engineSettings = { count: 60, speed: 0.2, size: 2, bloomMulti: 0.5, hueMode: 'sepia', clearAlpha: 0.1, behavior: 'drift' };
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            cx = width / 2;
-            cy = height / 2;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.reset(true);
-            }
-
-            reset(randomPosition = false) {
-                if (engineSettings.behavior === 'explode') {
-                    this.x = cx;
-                    this.y = cy;
-                    const angle = Math.random() * Math.PI * 2;
-                    const velocity = Math.random() * engineSettings.speed;
-                    this.vx = Math.cos(angle) * velocity;
-                    this.vy = Math.sin(angle) * velocity;
-                } else if (randomPosition) {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * engineSettings.speed;
-                    this.vy = (Math.random() - 0.5) * engineSettings.speed;
-                } else {
-                    if (Math.random() > 0.5) {
-                        this.x = Math.random() > 0.5 ? 0 : width;
-                        this.y = Math.random() * height;
-                    } else {
-                        this.x = Math.random() * width;
-                        this.y = Math.random() > 0.5 ? 0 : height;
-                    }
-                    this.vx = (Math.random() - 0.5) * engineSettings.speed;
-                    this.vy = (Math.random() - 0.5) * engineSettings.speed;
-                }
-
-                this.size = Math.random() * engineSettings.size + 1;
-                this.life = 0;
-                this.maxLife = Math.random() * 100 + 50;
-                this.angle = Math.random() * Math.PI * 2; 
-                this.setHue();
-            }
-
-            setHue() {
-                switch (engineSettings.hueMode) {
-                    case 'sepia': this.hue = 30 + Math.random() * 20; break; 
-                    case 'cool': this.hue = 200 + Math.random() * 40; break; 
-                    case 'tense': this.hue = 0 + Math.random() * 20; break; 
-                    case 'sickly': this.hue = 60 + Math.random() * 40; break; 
-                    case 'danger': this.hue = 340 + Math.random() * 40; break; 
-                    case 'fire': this.hue = 10 + Math.random() * 40; break; 
-                    case 'ultrabloom': this.hue = Math.random() * 360; break; 
-                    default: this.hue = 30;
-                }
-            }
-
-            update() {
-                if (engineSettings.behavior === 'swirl') {
-                    const dx = cx - this.x;
-                    const dy = cy - this.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    this.angle += 0.05;
-                    this.vx = Math.cos(this.angle) * engineSettings.speed + (dx / dist) * 0.5;
-                    this.vy = Math.sin(this.angle) * engineSettings.speed + (dy / dist) * 0.5;
-                } else if (engineSettings.behavior === 'vibrate') {
-                    this.vx += (Math.random() - 0.5) * 2.0;
-                    this.vy += (Math.random() - 0.5) * 2.0;
-                } else {
-                    this.vx += (Math.random() - 0.5) * 0.1;
-                    this.vy += (Math.random() - 0.5) * 0.1;
-                }
-
-                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-                const maxS = engineSettings.speed * (engineSettings.behavior === 'explode' ? 2 : 1);
-                if (speed > maxS && engineSettings.behavior !== 'vibrate') {
-                    this.vx = (this.vx / speed) * maxS;
-                    this.vy = (this.vy / speed) * maxS;
-                }
-
-                this.x += this.vx;
-                this.y += this.vy;
-                this.life++;
-
-                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height || this.life >= this.maxLife) {
-                    if (engineSettings.behavior !== 'explode') {
-                        this.reset();
-                    }
-                }
-            }
-
-            draw() {
-                const progress = this.life / this.maxLife;
-                const alpha = engineSettings.behavior === 'explode' ? 1 : Math.sin(progress * Math.PI); 
-                
-                const radius = this.size * engineSettings.bloomMulti;
-                if (radius <= 0) return;
-
-                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, radius);
-                
-                let lightness = engineSettings.hueMode === 'ultrabloom' ? 70 : 50;
-                let saturation = engineSettings.hueMode === 'sepia' ? 40 : 100;
-                
-                gradient.addColorStop(0, `hsla(${this.hue}, ${saturation}%, 100%, ${alpha})`); 
-                gradient.addColorStop(0.2, `hsla(${this.hue}, ${saturation}%, ${lightness}%, ${alpha * 0.8})`); 
-                gradient.addColorStop(1, `hsla(${this.hue}, ${saturation}%, 10%, 0)`); 
-
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function manageParticles() {
-            if (particles.length < engineSettings.count) {
-                for (let i = 0; i < 10; i++) {
-                    if (particles.length < engineSettings.count) particles.push(new Particle());
-                }
-            } else if (particles.length > engineSettings.count) {
-                particles.splice(0, 10);
-            }
-        }
-
-        let shakeOffset = { x: 0, y: 0 };
-
-        function animate() {
-            if (engineSettings.behavior === 'explode' || engineSettings.behavior === 'vibrate') {
-                let intensity = engineSettings.behavior === 'explode' ? 15 : 5;
-                shakeOffset.x = (Math.random() - 0.5) * intensity;
-                shakeOffset.y = (Math.random() - 0.5) * intensity;
-                ctx.save();
-                ctx.translate(shakeOffset.x, shakeOffset.y);
-            }
-
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = `rgba(10, 10, 10, ${engineSettings.clearAlpha})`;
-            ctx.fillRect(0, 0, width, height);
-
-            ctx.globalCompositeOperation = 'lighter';
-            
-            manageParticles();
-            
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+        if(actionBtn) {
+            actionBtn.addEventListener('click', () => {
+                if (isTyping) return;
+                currentStage++;
+                loadStage(currentStage);
             });
-
-            if (engineSettings.behavior === 'explode' || engineSettings.behavior === 'vibrate') {
-                ctx.restore();
-            }
-
-            requestAnimationFrame(animate);
         }
 
-        // --- STORY LOGIC ---
         function typeText(text, callback) {
             isTyping = true;
             typewriterEl.innerHTML = '';
@@ -660,7 +1209,7 @@
                 if (i < text.length) {
                     typewriterEl.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(typeChar, 20 + Math.random() * 30); 
+                    setTimeout(typeChar, 15 + Math.random() * 20); 
                 } else {
                     isTyping = false;
                     actionBtn.style.opacity = '1';
@@ -672,22 +1221,17 @@
         }
 
         function loadStage(index) {
-            if (index >= storyPlot.length) {
-                currentStage = 0; 
-                index = 0;
-            }
+            if (index >= storyPlot.length) { currentStage = 0; index = 0; }
             
             const stage = storyPlot[index];
             engineSettings = stage.settings;
-            
             root.style.setProperty('--ui-glow', stage.uiColor);
             storyTitleEl.innerText = stage.title;
             actionBtn.innerText = stage.btnText;
             
             if (engineSettings.behavior === 'explode') {
                 particles.forEach(p => {
-                    p.x = cx;
-                    p.y = cy;
+                    p.x = cx; p.y = cy;
                     const angle = Math.random() * Math.PI * 2;
                     const velocity = Math.random() * engineSettings.speed * 1.5;
                     p.vx = Math.cos(angle) * velocity;
@@ -696,19 +1240,255 @@
             } else {
                 particles.forEach(p => p.setHue());
             }
-
             typeText(stage.text);
         }
 
-        actionBtn.addEventListener('click', () => {
-            if (isTyping) return;
-            currentStage++;
-            loadStage(currentStage);
-        });
+        // ==========================================
+        // 5. AI API INTEGRATION (Gemini & Imagen)
+        // ==========================================
+        
+        const apiKey = ""; 
 
-        // Init
-        animate(); // Starts the background idle animation immediately
+        async function fetchWithRetry(url, options, retries = 5) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const res = await fetch(url, options);
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    return await res.json();
+                } catch (err) {
+                    if (i === retries - 1) throw err;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+            }
+        }
 
+        // --- Feature 1: Manto Tone Rewrite ---
+        async function rewriteText() {
+            const inputEl = document.getElementById('rewrite-input');
+            const resultBox = document.getElementById('rewrite-result');
+            const loading = document.getElementById('rewrite-loading');
+            const btn = document.getElementById('rewrite-btn');
+            
+            const query = inputEl.value.trim();
+            if (!query) return;
+
+            btn.disabled = true;
+            loading.style.display = 'block';
+            resultBox.innerText = "";
+
+            const systemPrompt = "You are Saadat Hasan Manto. Rewrite the user's sentence in your distinct, cynical, raw, and tragically beautiful 1930s literary style. Be concise. Provide only the rewritten sentence, nothing else.";
+
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: query }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const data = await fetchWithRetry(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                resultBox.innerText = `"${data.candidates?.[0]?.content?.parts?.[0]?.text || "The words fail me, as does the world."}"`;
+            } catch (error) {
+                resultBox.innerText = "Error: The censors have confiscated the manuscript.";
+            } finally {
+                loading.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+
+        // --- Feature 2: Audio Generation (TTS) ---
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) { bytes[i] = binaryString.charCodeAt(i); }
+            return bytes.buffer;
+        }
+
+        function createWavFile(pcmData, sampleRate) {
+            const numChannels = 1; 
+            const bytesPerSample = 2; 
+            const blockAlign = numChannels * bytesPerSample;
+            const byteRate = sampleRate * blockAlign;
+            const dataSize = pcmData.byteLength;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+            const writeString = (offset, string) => {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            };
+            writeString(0, 'RIFF');
+            view.setUint32(4, 36 + dataSize, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bytesPerSample * 8, true);
+            writeString(36, 'data');
+            view.setUint32(40, dataSize, true);
+            const pcmView = new Uint8Array(pcmData);
+            const bufferView = new Uint8Array(buffer, 44);
+            bufferView.set(pcmView);
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        async function generateAudio() {
+            const btn = document.getElementById('tts-btn');
+            const loading = document.getElementById('tts-loading');
+            const player = document.getElementById('audio-player');
+            
+            btn.disabled = true;
+            loading.style.display = 'block';
+            player.style.display = 'none';
+
+            const textToRead = "Speak dramatically and cynically: I tore at him. I clung to him like a junglee cat... I shredded his kurta to pieces. It was at that exact moment... I understood what it had been.";
+
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: textToRead }] }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Fenrir" } } }
+                    }
+                };
+
+                const data = await fetchWithRetry(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const inlineData = data.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+                if(inlineData && inlineData.data) {
+                    const pcmBuffer = base64ToArrayBuffer(inlineData.data);
+                    const sampleRateMatch = inlineData.mimeType.match(/rate=(\d+)/);
+                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+                    const wavBlob = createWavFile(pcmBuffer, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+                    player.src = audioUrl;
+                    player.style.display = 'block';
+                    player.play();
+                } else {
+                    throw new Error("No audio data");
+                }
+            } catch (error) {
+                alert("Failed to synthesize voice.");
+            } finally {
+                loading.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+
+        // --- Feature 3: Critic Chat ---
+        async function sendChatMessage() {
+            const inputEl = document.getElementById('chat-input');
+            const chatBox = document.getElementById('chat-box');
+            const loading = document.getElementById('chat-loading');
+            const btn = document.getElementById('chat-btn');
+            
+            const query = inputEl.value.trim();
+            if (!query) return;
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.innerText = query;
+            chatBox.appendChild(userMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            inputEl.value = '';
+            btn.disabled = true;
+            loading.style.display = 'block';
+
+            const systemPrompt = "You are a literary critic and expert on Saadat Hasan Manto, specifically his story 'My Name is Radha' and the 1930s Bombay film industry. Answer concisely, insightfully, and with a slightly cynical, intellectual tone. Keep responses under 3 sentences.";
+
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: query }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const data = await fetchWithRetry(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'chat-msg ai';
+                aiMsg.innerText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Speechless.";
+                chatBox.appendChild(aiMsg);
+            } catch (error) {
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'chat-msg ai';
+                errorMsg.style.color = 'red';
+                errorMsg.innerText = "Connection lost.";
+                chatBox.appendChild(errorMsg);
+            } finally {
+                loading.style.display = 'none';
+                btn.disabled = false;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        // --- Feature 4: Scene Generator ---
+        async function generateImage() {
+            const inputEl = document.getElementById('img-input');
+            const placeholder = document.getElementById('img-placeholder');
+            const imgEl = document.getElementById('generated-image');
+            const loading = document.getElementById('img-loading');
+            const btn = document.getElementById('img-btn');
+
+            const query = inputEl.value.trim();
+            if (!query) return;
+
+            btn.disabled = true;
+            loading.style.display = 'block';
+            imgEl.style.display = 'none';
+            placeholder.style.display = 'none';
+
+            const enhancedPrompt = `${query}, 1930s Bombay noir cinematic style, vintage sepia tone photograph, highly detailed, dramatic lighting`;
+
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+                const payload = {
+                    instances: { prompt: enhancedPrompt },
+                    parameters: { sampleCount: 1 }
+                };
+
+                const data = await fetchWithRetry(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const base64 = data.predictions?.[0]?.bytesBase64Encoded;
+                if (base64) {
+                    imgEl.src = `data:image/png;base64,${base64}`;
+                    imgEl.style.display = 'block';
+                } else {
+                    throw new Error("No image data");
+                }
+            } catch (error) {
+                placeholder.innerText = "The film reel snapped. Try again.";
+                placeholder.style.display = 'block';
+                placeholder.style.color = 'red';
+            } finally {
+                loading.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
     </script>
 </body>
 </html>
