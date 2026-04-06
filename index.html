@@ -3,66 +3,712 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Name is Radha | A Manto Story</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+    <title>My Name is Radha | Saadat Hasan Manto</title>
+    <style>
+        :root {
+            --ui-glow: rgba(200, 180, 150, 0.5);
+            --gold: #d4af37;
+            --text-color: #e8e3d9;
+            --text-muted: #a39f96;
+            --bg-color: #0a0a0a;
+            --panel-bg: rgba(15, 12, 10, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Georgia', serif;
+            color: var(--text-color);
+            scroll-behavior: smooth;
+        }
+
+        /* --- BACKGROUNDS & EFFECTS --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            opacity: 0.7;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+            background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.8) 150%);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--gold);
+            cursor: pointer;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+            text-shadow: 0 0 8px #fff;
+        }
+
+        /* --- PAGE STRUCTURE --- */
+        main {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .page {
+            display: none;
+            padding: 8rem 10% 4rem 10%;
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- TYPOGRAPHY & COMPONENTS --- */
+        h1, h2, h3 {
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 12px 30px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #fff;
+            box-shadow: 0 0 15px var(--ui-glow);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* --- SPECIFIC PAGES --- */
+        
+        /* Home Page */
+        #home {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            letter-spacing: 10px;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px var(--ui-glow);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            letter-spacing: 5px;
+            margin-bottom: 3rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Interactive Story Page */
+        #story {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 0; /* Let it center perfectly */
+        }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 4px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px var(--ui-glow);
+            transition: box-shadow 1.5s ease;
+            text-align: center;
+        }
+
+        #narrative-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            min-height: 140px; 
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.15rem;
+            background-color: var(--ui-glow);
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+            margin-left: 4px;
+        }
+
+        /* Content Pages (Author & Era) */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .text-content {
+            background: rgba(10, 10, 10, 0.6);
+            padding: 2.5rem;
+            border-left: 2px solid var(--gold);
+            backdrop-filter: blur(5px);
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(0.6) grayscale(0.3) contrast(1.2);
+            transition: transform 0.7s ease, filter 0.7s ease;
+        }
+
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+            filter: sepia(0.2) grayscale(0) contrast(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-title { font-size: 2.5rem; }
+            .nav-links { display: none; /* simple mobile nav hide for brevity */ }
+            nav { justify-content: center; }
+            .page { padding-top: 6rem; }
+        }
+    </style>
 </head>
 <body>
-    <canvas id="webgl-canvas"></canvas>
 
-    <nav class="glass-nav">
-        <div class="logo">MANTO <span>ARCHIVES</span></div>
-        <ul class="nav-links">
-            <li><a href="#hero">The Studio</a></li>
-            <li><a href="#characters">The Facade</a></li>
-            <li><a href="#climax">The Reality</a></li>
-        </ul>
+    <!-- Global Visual Engine -->
+    <div id="canvas-container">
+        <canvas id="bloomCanvas"></canvas>
+    </div>
+    
+    <div class="film-grain"></div>
+    <div class="vignette"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo" onclick="navigateTo('home')">Lumina Films</div>
+        <div class="nav-links">
+            <span class="nav-link active" onclick="navigateTo('home')">Home</span>
+            <span class="nav-link" onclick="navigateTo('story')">The Experience</span>
+            <span class="nav-link" onclick="navigateTo('author')">The Author</span>
+            <span class="nav-link" onclick="navigateTo('era')">The Era</span>
+        </div>
     </nav>
 
+    <!-- Main Content Areas (SPA Pages) -->
     <main>
-        <section id="hero" class="hero fade-in">
-            <div class="content-box">
-                <h2 class="subtitle">The Beauty of the Forest</h2>
-                <h1 class="title glow-text">My Name is Radha</h1>
-                <p class="description">A tale of cinematic illusion, hollow vanity, and a fierce reality set against the backdrop of the 1930s Bombay film industry.</p>
-                <div class="scroll-indicator">↓ Scroll to Discover ↓</div>
+        
+        <!-- 1. HOME PAGE -->
+        <section id="home" class="page active">
+            <h1 class="hero-title">MY NAME IS RADHA</h1>
+            <div class="hero-subtitle">A Story of Purity, Pretense, and Film by Saadat Hasan Manto</div>
+            <a class="btn" onclick="navigateTo('story')">Enter The Studio</a>
+        </section>
+
+        <!-- 2. INTERACTIVE STORY PAGE -->
+        <section id="story" class="page">
+            <div class="glass-panel" id="panel">
+                <h1 id="story-title" style="color:var(--gold); font-size:1.5rem; margin-bottom:1.5rem;">Bombay, 1939</h1>
+                <div id="narrative-text"><span id="typewriter"></span><span class="cursor"></span></div>
+                <div>
+                    <button class="btn" id="action-btn">Read On</button>
+                </div>
             </div>
         </section>
 
-        <section id="characters" class="info-section">
-            <div class="glass-card left-align">
-                <h3 class="accent-text">The Immaculate Actor</h3>
-                <p>Raj Kishore was a handsome, well-built young man from Rawalpindi, adorned in spotless khadi. Universally praised for his moral fiber, he was a man who addressed every actress as "sister." Yet, beneath the perfect physique and the righteous diary entries, lay a vanity that demanded constant exhibition.</p>
+        <!-- 3. THE AUTHOR PAGE -->
+        <section id="author" class="page">
+            <h2 class="section-title">The Undisputed Master</h2>
+            <div class="content-grid">
+                <div class="image-wrapper">
+                    <!-- Vintage typewriter to represent the writer -->
+                    <img src="https://images.unsplash.com/photo-1505682634904-d7c8d95cdc50?auto=format&fit=crop&q=80" alt="Vintage Typewriter">
+                </div>
+                <div class="text-content">
+                    <p><strong>Saadat Hasan Manto</strong> (1912 – 1955) has been called the greatest short story writer of the Indian subcontinent. Born in Punjab, he navigated the chaotic, vibrant world of Bombay as a radio and film scriptwriter, journalist, and author.</p>
+                    <p>His stories were highly controversial, unafraid to look into the dark, marginalized corners of society. He was tried for obscenity six times during his career—a testament to his refusal to sanitize reality.</p>
+                    <p>Manto's world in Bombay was crowded with Hindus, Sikhs, and Muslims; with hookers and heiresses, clerks and movie stars. He wrote of their lives with profound empathy and a sharp, cynical wit. After the tragic violence of Partition, he moved to Lahore, where the separation from his beloved Bombay eventually broke him.</p>
+                </div>
             </div>
+        </section>
 
-            <div class="glass-card right-align mt-large">
-                <h3 class="accent-text">The Fierce Woman</h3>
-                <p>Neelam, whose real name was Radha, was chosen to play the vamp. Dark-skinned, serious, and deeply perceptive, she carried a sadness in her eyes. She was not a woman to be easily deciphered, understanding the hollowness of the studio's men while battling a quiet turmoil of her own.</p>
+        <!-- 4. THE ERA PAGE -->
+        <section id="era" class="page">
+            <h2 class="section-title">1930s Bombay Cinema</h2>
+            <div class="content-grid" style="direction: rtl;">
+                <div class="image-wrapper" style="direction: ltr;">
+                    <!-- Vintage film camera / studio lights -->
+                    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80" alt="Vintage Film Camera">
+                </div>
+                <div class="text-content" style="direction: ltr;">
+                    <p>In the late 1930s, the Bombay film industry was a chaotic blend of art, commerce, and survival. B-grade studios churned out films like <em>"The Beauty of the Forest"</em> while scriptwriters earned a meager forty rupees a month.</p>
+                    <p>The studios were melting pots. You had 'pure' leading men draped in khadi cloth, professing nationalistic ideals while measuring their biceps. And you had women like Neelam—the daughter of a Banarasi prostitute—brought in to play the 'vamp' because polite society refused to acknowledge them as anything else.</p>
+                    <p>Manto captures the hypocrisy of this era perfectly. The men who played saints on screen often lacked the raw, unapologetic honesty of the women they looked down upon. When the facade cracks, as it does in <em>"My Name is Radha"</em>, the truth is violent, bloody, and entirely real.</p>
+                </div>
             </div>
         </section>
 
-        <section id="climax" class="climax-section">
-            <div class="content-box center">
-                <h2 class="title red-glow">The Shattered Facade</h2>
-                <p class="dramatic-text">"I tore at him. I clung to him like a junglee cat... My blood and lipstick had left vile, almost floral bruises on his beautiful body."</p>
-                <p class="description">When the illusion of the spotless actor collided with the raw, untamed reality of the woman, the facade crumbled. Left behind was only the truth, spoken with sudden, terrifying clarity:</p>
-                <h3 class="final-quote">"Saadat, my name is Radha."</h3>
-            </div>
-        </section>
     </main>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+    <script>
+        // --- NAVIGATION LOGIC ---
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function navigateTo(pageId) {
+            // Update Navigation UI
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.innerText.toLowerCase().includes(pageId) || 
+                  (pageId === 'story' && link.innerText.includes('Experience'))) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update Pages
+            pages.forEach(page => {
+                page.classList.remove('active');
+                if(page.id === pageId) {
+                    page.classList.add('active');
+                }
+            });
+
+            // Update Engine State based on page
+            if (pageId === 'story') {
+                engineSettings = storyPlot[currentStage].settings;
+                root.style.setProperty('--ui-glow', storyPlot[currentStage].uiColor);
+                if(currentStage === 0 && !isStoryStarted) {
+                    isStoryStarted = true;
+                    loadStage(0);
+                }
+            } else {
+                // Background idle mode for other pages
+                engineSettings = { count: 60, speed: 0.2, size: 2, bloomMulti: 0.5, hueMode: 'sepia', clearAlpha: 0.1, behavior: 'drift' };
+                root.style.setProperty('--ui-glow', 'rgba(200, 180, 150, 0.5)');
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        // --- NARRATIVE PLOT & STATE ---
+        const storyPlot = [
+            {
+                title: "The B-Grade Studio",
+                text: "I was employed at a film studio, earning forty rupees a month. Raj Kishore was our leading man. Handsome, built like an ox, wore khadi, and was entirely too aware of his own purity. He called every actress 'sister'. I despised his posturing.",
+                btnText: "The New Girl",
+                uiColor: "rgba(180, 150, 100, 0.5)", 
+                settings: { count: 40, speed: 0.3, size: 3, bloomMulti: 0.6, hueMode: 'sepia', clearAlpha: 0.1, behavior: 'drift' }
+            },
+            {
+                title: "The Vamp",
+                text: "Then came Neelam. Her real name was Radha. She was the daughter of a Banarasi prostitute. Dark-skinned, serious, with a sharp wit. She was cast as the vamp. I saw how she looked at Raj Kishore's puffed-up chest. The tension between his 'purity' and her reality was suffocating.",
+                btnText: "The Hand Kiss",
+                uiColor: "rgba(100, 120, 180, 0.6)", 
+                settings: { count: 80, speed: 0.6, size: 4, bloomMulti: 1.0, hueMode: 'cool', clearAlpha: 0.08, behavior: 'drift' }
+            },
+            {
+                title: "The Insult",
+                text: "We were shooting 'The Beauty of the Forest'. The script called for Raj to kiss her hand. Instead, protecting his saintly image, he turned his back to the camera and kissed his *own* hand. Neelam didn't slap him. She just smiled. A terrifying, silent smile.",
+                btnText: "The Sickness",
+                uiColor: "rgba(180, 80, 80, 0.7)", 
+                settings: { count: 120, speed: 1.5, size: 5, bloomMulti: 1.5, hueMode: 'tense', clearAlpha: 0.05, behavior: 'vibrate' }
+            },
+            {
+                title: "The Rakhi",
+                text: "Neelam fell ill with malaria. Raj visited her with his dowdy wife. In a stroke of cruel piety, he forced the feverish Neelam to tie a Rakhi—a sister's thread—around his wrist. He left his diary behind. The air in the room felt like a stretched wire ready to snap.",
+                btnText: "Stage 4",
+                uiColor: "rgba(150, 150, 50, 0.8)", 
+                settings: { count: 150, speed: 2.5, size: 6, bloomMulti: 2.0, hueMode: 'sickly', clearAlpha: 0.04, behavior: 'swirl' }
+            },
+            {
+                title: "The Empty Set",
+                text: "He didn't return to her room for the diary. He found her that night on the dark, rain-swept Stage 4. I was hiding in the catwalks. She was waiting, wearing her vamp's silk bodice, her lips painted like a bleeding wound. 'I came for my book, sister,' he stammered.",
+                btnText: "The Attack",
+                uiColor: "rgba(200, 40, 40, 0.9)", 
+                settings: { count: 250, speed: 5.0, size: 8, bloomMulti: 3.5, hueMode: 'danger', clearAlpha: 0.1, behavior: 'vibrate' }
+            },
+            {
+                title: "Shattered Facade",
+                text: "She didn't speak. She leapt. Like a wild jungle cat, she tore at his pristine khadi kurta. He clawed back, but she was fierce. She sank her teeth into his chest, tasting blood and rouge. His righteous facade broke into whimpers. The studio lights sparked, short-circuiting under the sheer violent energy.",
+                btnText: "Ignite",
+                uiColor: "rgba(255, 100, 100, 1)", 
+                settings: { count: 400, speed: 10.0, size: 15, bloomMulti: 5.0, hueMode: 'fire', clearAlpha: 0.05, behavior: 'explode' }
+            },
+            {
+                title: "My Name is Radha",
+                text: "ULTRABLOOM TRIGGERED. The set flooded with blinding, torrential color. She stood up, breathing heavily, leaving him a broken, bloody mess on the floor. She looked up into the dark rafters right at me. 'Saadat,' she whispered into the blazing light, 'My name is Radha.'",
+                btnText: "Restart Film",
+                uiColor: "rgba(255, 255, 255, 1)", 
+                settings: { count: 600, speed: 15.0, size: 25, bloomMulti: 8.0, hueMode: 'ultrabloom', clearAlpha: 0.02, behavior: 'explode' }
+            }
+        ];
+
+        let currentStage = 0;
+        let isTyping = false;
+        let isStoryStarted = false;
+
+        const storyTitleEl = document.getElementById('story-title');
+        const typewriterEl = document.getElementById('typewriter');
+        const actionBtn = document.getElementById('action-btn');
+        const root = document.documentElement;
+
+        // --- CANVAS & ULTRABLOOM ENGINE ---
+        const canvas = document.getElementById('bloomCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        let width, height, cx, cy;
+        let particles = [];
+        
+        // Start with idle background settings
+        let engineSettings = { count: 60, speed: 0.2, size: 2, bloomMulti: 0.5, hueMode: 'sepia', clearAlpha: 0.1, behavior: 'drift' };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            cx = width / 2;
+            cy = height / 2;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(randomPosition = false) {
+                if (engineSettings.behavior === 'explode') {
+                    this.x = cx;
+                    this.y = cy;
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * engineSettings.speed;
+                    this.vx = Math.cos(angle) * velocity;
+                    this.vy = Math.sin(angle) * velocity;
+                } else if (randomPosition) {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * engineSettings.speed;
+                    this.vy = (Math.random() - 0.5) * engineSettings.speed;
+                } else {
+                    if (Math.random() > 0.5) {
+                        this.x = Math.random() > 0.5 ? 0 : width;
+                        this.y = Math.random() * height;
+                    } else {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() > 0.5 ? 0 : height;
+                    }
+                    this.vx = (Math.random() - 0.5) * engineSettings.speed;
+                    this.vy = (Math.random() - 0.5) * engineSettings.speed;
+                }
+
+                this.size = Math.random() * engineSettings.size + 1;
+                this.life = 0;
+                this.maxLife = Math.random() * 100 + 50;
+                this.angle = Math.random() * Math.PI * 2; 
+                this.setHue();
+            }
+
+            setHue() {
+                switch (engineSettings.hueMode) {
+                    case 'sepia': this.hue = 30 + Math.random() * 20; break; 
+                    case 'cool': this.hue = 200 + Math.random() * 40; break; 
+                    case 'tense': this.hue = 0 + Math.random() * 20; break; 
+                    case 'sickly': this.hue = 60 + Math.random() * 40; break; 
+                    case 'danger': this.hue = 340 + Math.random() * 40; break; 
+                    case 'fire': this.hue = 10 + Math.random() * 40; break; 
+                    case 'ultrabloom': this.hue = Math.random() * 360; break; 
+                    default: this.hue = 30;
+                }
+            }
+
+            update() {
+                if (engineSettings.behavior === 'swirl') {
+                    const dx = cx - this.x;
+                    const dy = cy - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    this.angle += 0.05;
+                    this.vx = Math.cos(this.angle) * engineSettings.speed + (dx / dist) * 0.5;
+                    this.vy = Math.sin(this.angle) * engineSettings.speed + (dy / dist) * 0.5;
+                } else if (engineSettings.behavior === 'vibrate') {
+                    this.vx += (Math.random() - 0.5) * 2.0;
+                    this.vy += (Math.random() - 0.5) * 2.0;
+                } else {
+                    this.vx += (Math.random() - 0.5) * 0.1;
+                    this.vy += (Math.random() - 0.5) * 0.1;
+                }
+
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                const maxS = engineSettings.speed * (engineSettings.behavior === 'explode' ? 2 : 1);
+                if (speed > maxS && engineSettings.behavior !== 'vibrate') {
+                    this.vx = (this.vx / speed) * maxS;
+                    this.vy = (this.vy / speed) * maxS;
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life++;
+
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height || this.life >= this.maxLife) {
+                    if (engineSettings.behavior !== 'explode') {
+                        this.reset();
+                    }
+                }
+            }
+
+            draw() {
+                const progress = this.life / this.maxLife;
+                const alpha = engineSettings.behavior === 'explode' ? 1 : Math.sin(progress * Math.PI); 
+                
+                const radius = this.size * engineSettings.bloomMulti;
+                if (radius <= 0) return;
+
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, radius);
+                
+                let lightness = engineSettings.hueMode === 'ultrabloom' ? 70 : 50;
+                let saturation = engineSettings.hueMode === 'sepia' ? 40 : 100;
+                
+                gradient.addColorStop(0, `hsla(${this.hue}, ${saturation}%, 100%, ${alpha})`); 
+                gradient.addColorStop(0.2, `hsla(${this.hue}, ${saturation}%, ${lightness}%, ${alpha * 0.8})`); 
+                gradient.addColorStop(1, `hsla(${this.hue}, ${saturation}%, 10%, 0)`); 
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
+
+        function manageParticles() {
+            if (particles.length < engineSettings.count) {
+                for (let i = 0; i < 10; i++) {
+                    if (particles.length < engineSettings.count) particles.push(new Particle());
+                }
+            } else if (particles.length > engineSettings.count) {
+                particles.splice(0, 10);
+            }
+        }
+
+        let shakeOffset = { x: 0, y: 0 };
+
+        function animate() {
+            if (engineSettings.behavior === 'explode' || engineSettings.behavior === 'vibrate') {
+                let intensity = engineSettings.behavior === 'explode' ? 15 : 5;
+                shakeOffset.x = (Math.random() - 0.5) * intensity;
+                shakeOffset.y = (Math.random() - 0.5) * intensity;
+                ctx.save();
+                ctx.translate(shakeOffset.x, shakeOffset.y);
+            }
+
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = `rgba(10, 10, 10, ${engineSettings.clearAlpha})`;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.globalCompositeOperation = 'lighter';
+            
+            manageParticles();
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            if (engineSettings.behavior === 'explode' || engineSettings.behavior === 'vibrate') {
+                ctx.restore();
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // --- STORY LOGIC ---
+        function typeText(text, callback) {
+            isTyping = true;
+            typewriterEl.innerHTML = '';
+            let i = 0;
+            actionBtn.style.opacity = '0.3';
+            actionBtn.style.pointerEvents = 'none';
+
+            function typeChar() {
+                if (i < text.length) {
+                    typewriterEl.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeChar, 20 + Math.random() * 30); 
+                } else {
+                    isTyping = false;
+                    actionBtn.style.opacity = '1';
+                    actionBtn.style.pointerEvents = 'auto';
+                    if (callback) callback();
+                }
+            }
+            typeChar();
+        }
+
+        function loadStage(index) {
+            if (index >= storyPlot.length) {
+                currentStage = 0; 
+                index = 0;
+            }
+            
+            const stage = storyPlot[index];
+            engineSettings = stage.settings;
+            
+            root.style.setProperty('--ui-glow', stage.uiColor);
+            storyTitleEl.innerText = stage.title;
+            actionBtn.innerText = stage.btnText;
+            
+            if (engineSettings.behavior === 'explode') {
+                particles.forEach(p => {
+                    p.x = cx;
+                    p.y = cy;
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * engineSettings.speed * 1.5;
+                    p.vx = Math.cos(angle) * velocity;
+                    p.vy = Math.sin(angle) * velocity;
+                });
+            } else {
+                particles.forEach(p => p.setHue());
+            }
+
+            typeText(stage.text);
+        }
+
+        actionBtn.addEventListener('click', () => {
+            if (isTyping) return;
+            currentStage++;
+            loadStage(currentStage);
+        });
+
+        // Init
+        animate(); // Starts the background idle animation immediately
+
     </script>
-    <script type="module" src="script.js"></script>
 </body>
 </html>
