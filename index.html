@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Name is Radha | A Manto Story</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="webgl-canvas"></canvas>
+
+    <nav class="glass-nav">
+        <div class="logo">MANTO <span>ARCHIVES</span></div>
+        <ul class="nav-links">
+            <li><a href="#hero">The Studio</a></li>
+            <li><a href="#characters">The Facade</a></li>
+            <li><a href="#climax">The Reality</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero" class="hero fade-in">
+            <div class="content-box">
+                <h2 class="subtitle">The Beauty of the Forest</h2>
+                <h1 class="title glow-text">My Name is Radha</h1>
+                <p class="description">A tale of cinematic illusion, hollow vanity, and a fierce reality set against the backdrop of the 1930s Bombay film industry.</p>
+                <div class="scroll-indicator">↓ Scroll to Discover ↓</div>
+            </div>
+        </section>
+
+        <section id="characters" class="info-section">
+            <div class="glass-card left-align">
+                <h3 class="accent-text">The Immaculate Actor</h3>
+                <p>Raj Kishore was a handsome, well-built young man from Rawalpindi, adorned in spotless khadi. Universally praised for his moral fiber, he was a man who addressed every actress as "sister." Yet, beneath the perfect physique and the righteous diary entries, lay a vanity that demanded constant exhibition.</p>
+            </div>
+
+            <div class="glass-card right-align mt-large">
+                <h3 class="accent-text">The Fierce Woman</h3>
+                <p>Neelam, whose real name was Radha, was chosen to play the vamp. Dark-skinned, serious, and deeply perceptive, she carried a sadness in her eyes. She was not a woman to be easily deciphered, understanding the hollowness of the studio's men while battling a quiet turmoil of her own.</p>
+            </div>
+        </section>
+
+        <section id="climax" class="climax-section">
+            <div class="content-box center">
+                <h2 class="title red-glow">The Shattered Facade</h2>
+                <p class="dramatic-text">"I tore at him. I clung to him like a junglee cat... My blood and lipstick had left vile, almost floral bruises on his beautiful body."</p>
+                <p class="description">When the illusion of the spotless actor collided with the raw, untamed reality of the woman, the facade crumbled. Left behind was only the truth, spoken with sudden, terrifying clarity:</p>
+                <h3 class="final-quote">"Saadat, my name is Radha."</h3>
+            </div>
+        </section>
+    </main>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
